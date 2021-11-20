@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30406.217
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SitecoreSeoAnalyzerApp", "SitecoreSeoAnalyzerApp\SitecoreSeoAnalyzerApp.csproj", "{04DEE360-274B-413E-BB90-D3142B79A530}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04DEE360-274B-413E-BB90-D3142B79A530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04DEE360-274B-413E-BB90-D3142B79A530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04DEE360-274B-413E-BB90-D3142B79A530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04DEE360-274B-413E-BB90-D3142B79A530}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3708A582-C654-4FC9-99B1-CD623CA10B27}
+	EndGlobalSection
+EndGlobal
