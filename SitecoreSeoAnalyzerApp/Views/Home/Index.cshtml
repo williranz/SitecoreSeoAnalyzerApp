@@ -3,6 +3,19 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Sitecore SEO Analyzer</h1>
+    <br />
+    <label for="tcontent">Text to analyze</label>
+    <input type="text" id="TContent" name="textcontent" placeholder="Enter text here.."/>
+    <label for="tcontent">Page URL</label>
+    <input type="url" id="UContent" name="urlcontent" placeholder="Enter page url here.."/>
+    <div id="checkboxlist">
+        <label>Analysis Option:</label>
+        <ul>
+            <li><input type="checkbox" checked="checked"> Number of occurrences on the page content</li>
+            <li><input type="checkbox"> Number of occurrences on the page meta tags </li>
+            <li><input type="checkbox"> Number of external links in the text </li>
+        </ul>
+    </div>
+    <input type="submit" value="Analyze"/>
 </div>

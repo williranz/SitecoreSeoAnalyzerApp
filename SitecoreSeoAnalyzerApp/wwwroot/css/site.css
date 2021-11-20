@@ -12,22 +12,44 @@ a {
   color: #0366d6;
 }
 
+h1 {
+    color: #ff0000;
+}
+
+h3 {
+    color: #696969;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
+img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
+.nav-link {
+  font-family:sans-serif;
+  font-size: large;
+}
+
+.navbar-brand {
+  padding-bottom: 0.7125rem
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 768px) {
   html {
@@ -59,13 +81,69 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  background: #fdf5e6;
+  line-height: 60px;
+}
+
+label {
+  text-align: left;
+  float: left;
+}
+
+input[type=text], input[type=url], select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 8px #7bc1f7;
+  display: inline-block;
+  margin: 8px 0;
+  margin-bottom: 18px;
+  padding: 12px 20px;
+  width: 100%;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  margin: 8px 0;
+  padding: 14px 20px;
+  width: 100%;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+#checkboxlist label {
+  float: left;
+}
+
+#checkboxlist ul {
+  margin: 0;
+  list-style: none;
+  float: left;
+  text-align: left;
+  margin-bottom: 18px
+}
+
+input[type=checkbox] {
+  width: 15px;
+  height: 15px;
+  margin: 2px;
+  outline: 2px solid lightblue;
+}
+
+input[type=checkbox]:checked {
+    filter: invert(100%) hue-rotate(50deg) brightness(1.2);
 }
