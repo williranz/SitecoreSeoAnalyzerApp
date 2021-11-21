@@ -6,9 +6,9 @@
     <h1 class="display-4">Sitecore SEO Analyzer</h1>
     <br />
     <label for="tcontent">Text to analyze</label>
-    <input type="text" id="TContent" name="textcontent" placeholder="Enter text here.."/>
+    <input type="text" id="TContent" name="textcontent" maxlength="250" placeholder="Enter text here.." />
     <label for="tcontent">Page URL</label>
-    <input type="url" id="UContent" name="urlcontent" placeholder="Enter page url here.."/>
+    <input type="url" id="UContent" name="urlcontent" placeholder="Enter page url here.." />
     <div id="checkboxlist">
         <label>Analysis Option:</label>
         <ul>
@@ -17,5 +17,9 @@
             <li><input type="checkbox"> Number of external links in the text </li>
         </ul>
     </div>
-    <input type="submit" value="Analyze"/>
+    <input type="submit" id="analyze" value="Analyze" onclick="populateResult()"/>
+    <table id="resultTable">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
 </div>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SitecoreSeoAnalyzerApp.Models;
+using SitecoreSeoAnalyzerApp.Controllers;
 
 namespace SitecoreSeoAnalyzerApp.Controllers
 {
