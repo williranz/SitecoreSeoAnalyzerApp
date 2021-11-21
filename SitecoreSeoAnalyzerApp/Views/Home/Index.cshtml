@@ -12,12 +12,13 @@
     <div id="checkboxlist">
         <label>Analysis Option:</label>
         <ul>
-            <li><input type="checkbox" checked="checked"> Number of occurrences on the page content</li>
-            <li><input type="checkbox"> Number of occurrences on the page meta tags </li>
-            <li><input type="checkbox"> Number of external links in the text </li>
+            <li><input type="checkbox" id="option1" checked="checked"> Number of occurrences on the page content</li>
+            <li><input type="checkbox" id="option2"> Number of occurrences on the page meta tags </li>
+            <li><input type="checkbox" id="option3"> Number of external links in the text </li>
         </ul>
     </div>
-    <input type="submit" id="analyze" value="Analyze" onclick="populateResult()"/>
+    <input type="submit" id="analyze" value="Analyze" onclick="populateResult(document.getElementById('TContent').value, document.getElementById('UContent').value,
+        document.getElementById('option1').checked, document.getElementById('option2').checked, document.getElementById('option3').checked)"/>
     <table id="resultTable">
         <thead></thead>
         <tbody></tbody>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SitecoreSeoAnalyzerApp.Models;
@@ -15,10 +17,23 @@ namespace SitecoreSeoAnalyzerApp.Controllers
             _logger = logger;
         }
 
+        [HttpPost]
+        public ActionResult Analyze(string text, string url, bool opt1, bool opt2, bool opt3)
+        {
+            string cleanText = CleanTextInput(text);
+            List<string> words = SplitStringIntoWords(cleanText);
+
+            var options = new List<bool>() { opt1, opt2, opt3 };
+            ProcessSeoAnalysis(words, url, options);
+            
+            var result = Json(PopulateDummyData());
+            return result;
+        }
+
         /// <summary>
         /// Todo : to be deleted
         /// </summary>
-        public List<Word> PopulateDummyData()
+        private List<Word> PopulateDummyData()
         {
             var word1 = new Word("Automation", 1045);
             var word2 = new Word("Insanity", 9);
@@ -35,11 +50,29 @@ namespace SitecoreSeoAnalyzerApp.Controllers
             return words;
         }
 
-        [HttpGet]
-        public ActionResult Analyze(object sender, EventArgs e)
+        private string CleanTextInput(string input)
         {
-            var result = Json(PopulateDummyData());
-            return result;
+            return null;
+        }
+
+        private List<string> SplitStringIntoWords(string cleanInput)
+        {
+            return null;
+        }
+
+        private void ProcessSeoAnalysis(List<string> words, string url, List<bool> options)
+        {
+            if (options.First())
+            {
+            }
+
+            if (options.ElementAt(1))
+            {
+            }
+
+            if (options.Last())
+            {
+            }
         }
     }
 }

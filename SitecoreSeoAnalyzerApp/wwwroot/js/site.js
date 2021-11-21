@@ -48,11 +48,21 @@ function sortTable(n) {
     }
 }
 
-function populateResult() {
+function populateResult(textContent, urlContent, option1, option2, option3) {
+    var analyzeButton = document.getElementById('analyze');
+    disableButton(analyzeButton);
+
+    if (!checkValidUrl(urlContent)) {
+        alert("Please enter a valid URL.");
+        enableButton(analyzeButton);
+        return;
+    }
+
     $.ajax({
         url: 'Word/Analyze',
         dataType: "json",
-        method: 'GET',
+        data: { 'text': textContent, 'url': urlContent, 'opt1': option1, 'opt2': option2, 'opt3': option3 },
+        method: 'post',
         success: function (words) {
 
             var resultTableHeader = $('#resultTable thead');
@@ -65,9 +75,26 @@ function populateResult() {
             for (let i = 0; i < words.length; i++) {
                 analyzeResultTable.append('<tr><td>' + words[i].name + '</td><td>' + words[i].count + '</td></tr>');
             }
+
+            enableButton(analyzeButton);
         },
         error: function (err) {
             alert(err);
+            enableButton(analyzeButton);
         }
     });
-} 
+}
+
+function checkValidUrl(url) {
+    return url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+}
+
+function disableButton(analyzeButton) {
+    analyzeButton.disabled = 'disabled';
+    analyzeButton.value = "Processing...";
+}
+
+function enableButton(analyzeButton) {
+    analyzeButton.disabled = false;
+    analyzeButton.value = "Analyze";
+}
