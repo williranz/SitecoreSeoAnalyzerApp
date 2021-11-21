@@ -16,17 +16,30 @@ namespace SitecoreSeoAnalyzerApp.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Number of occurrences  
+        /// Number of occurrences on page content  
         /// </summary>
         public int Count { get; set; }
+
+
+        /// <summary>
+        /// Number of occurrences on meta tag
+        /// </summary>
+        public int MetaCount { get; set; }
+
+        /// <summary>
+        /// Number of occurrences on meta tag
+        /// </summary>
+        public int ExtLinkCount { get; set; }
 
         /// <summary>
         /// Constructor word
         /// </summary>
-        public Word(string name, int count)
+        public Word(string name, int count = 0, int metaCount = 0, int extLinkCOunt = 0)
         {
             Name = name;
             Count = count;
+            MetaCount = metaCount;
+            ExtLinkCount = extLinkCOunt;
         }
     }
 }

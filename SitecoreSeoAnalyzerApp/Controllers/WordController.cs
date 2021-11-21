@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SitecoreSeoAnalyzerApp.Models;
 
@@ -12,22 +14,36 @@ namespace SitecoreSeoAnalyzerApp.Controllers
     {
         private readonly ILogger<WordController> _logger;
 
-        public WordController(ILogger<WordController> logger)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        private readonly List<string> _stopWords;
+
+        private readonly Regex _regex;
+
+        public WordController(ILogger<WordController> logger, IHostingEnvironment hostingEnvironment)
         {
             _logger = logger;
+            _hostingEnvironment = hostingEnvironment;
+            _regex = new Regex("[^a-zA-Z0-9 ]");
+            _stopWords = LoadStopWords();
+            
         }
 
         [HttpPost]
         public ActionResult Analyze(string text, string url, bool opt1, bool opt2, bool opt3)
         {
             string cleanText = CleanTextInput(text);
-            List<string> words = SplitStringIntoWords(cleanText);
+            
+            List<string> grossWords = SplitStringIntoWords(cleanText);
+
+            List<string> cleanWords = RemoveStopWords(grossWords);
 
             var options = new List<bool>() { opt1, opt2, opt3 };
-            ProcessSeoAnalysis(words, url, options);
+
+            ProcessSeoAnalysis(cleanWords, url, options);
             
-            var result = Json(PopulateDummyData());
-            return result;
+            var wordResult = Json(PopulateDummyData());
+            return wordResult;
         }
 
         /// <summary>
@@ -50,16 +66,53 @@ namespace SitecoreSeoAnalyzerApp.Controllers
             return words;
         }
 
-        private string CleanTextInput(string input)
+        /// <summary>
+        /// Remove symbols
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string CleanTextInput(string text)
         {
-            return null;
+            string output = _regex.Replace(text, string.Empty);
+            return output;
         }
 
-        private List<string> SplitStringIntoWords(string cleanInput)
+        /// <summary>
+        /// split input text into words
+        /// </summary>
+        /// <param name="cleanText"></param>
+        /// <returns></returns>
+        private List<string> SplitStringIntoWords(string cleanText)
         {
-            return null;
+            string[] words = cleanText.Split(' ');
+            List<string> result = words.ToList();
+            return result;
         }
 
+        /// <summary>
+        /// Remove stop words
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private List<string> RemoveStopWords(List<string> grossWords)
+        {
+            var result = grossWords;
+
+            foreach (var word in _stopWords.Where(word => result.Contains(word, StringComparer.OrdinalIgnoreCase)))
+            {
+                result.Remove(word);
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Process SEO analysis
+        /// </summary>
+        /// <param name="words"></param>
+        /// <param name="url"></param>
+        /// <param name="options"></param>
         private void ProcessSeoAnalysis(List<string> words, string url, List<bool> options)
         {
             if (options.First())
@@ -72,6 +125,34 @@ namespace SitecoreSeoAnalyzerApp.Controllers
 
             if (options.Last())
             {
+            }
+        }
+
+        /// <summary>
+        /// Load stop words from csv
+        /// </summary>
+        /// <returns></returns>
+        private List<string> LoadStopWords()
+        {
+            try
+            {
+                var stopWordsPath = Path.Combine(_hostingEnvironment.ContentRootPath, @"wwwroot\StopWords.csv");
+                using var reader = new StreamReader(stopWordsPath);
+                var listStopWords = new List<string>();
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(';');
+
+                    listStopWords.Add(values[0]);
+                }
+
+                return listStopWords;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }

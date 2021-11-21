@@ -52,8 +52,8 @@ function populateResult(textContent, urlContent, option1, option2, option3) {
     var analyzeButton = document.getElementById('analyze');
     disableButton(analyzeButton);
 
-    if (!checkValidUrl(urlContent)) {
-        alert("Please enter a valid URL.");
+    if (!checkValidUrl(urlContent) || !textContent) {
+        alert("Please enter some input text with a valid URL");
         enableButton(analyzeButton);
         return;
     }
