@@ -1,7 +1,7 @@
 ﻿// Review sort algorithm required
-function sortTable(n) {
+function sortTable(n, num) {
     var rows, switching, i, x, y, shouldSwitch, dir, switchCount = 0;
-    var table = document.getElementById("resultTable");
+    var table = document.getElementById("resultTable" + num);
     switching = true;
    
     dir = "asc";
@@ -13,19 +13,19 @@ function sortTable(n) {
         
         for (i = 1; i < (rows.length - 1); i++) {
             shouldSwitch = false;
-            x = rows[i].getElementsByTagName("TD")[n];
-            y = rows[i + 1].getElementsByTagName("TD")[n];
-            var cmpX = isNaN(parseInt(x.innerHTML)) ? x.innerHTML.toLowerCase() : parseInt(x.innerHTML);
-            var cmpY = isNaN(parseInt(y.innerHTML)) ? y.innerHTML.toLowerCase() : parseInt(y.innerHTML);
-            cmpX = (cmpX == '-') ? 0 : cmpX;
-            cmpY = (cmpY == '-') ? 0 : cmpY;
+            x = rows[i].getElementsByTagName("td")[n];
+            y = rows[i + 1].getElementsByTagName("td")[n];
+            var compareX = isNaN(parseInt(x.innerHTML)) ? x.innerHTML.toLowerCase() : parseInt(x.innerHTML);
+            var compareY = isNaN(parseInt(y.innerHTML)) ? y.innerHTML.toLowerCase() : parseInt(y.innerHTML);
+            compareX = (compareX == '-') ? 0 : compareX;
+            compareY = (compareY == '-') ? 0 : compareY;
             if (dir == "asc") {
-                if (cmpX > cmpY) {
+                if (compareX > compareY) {
                     shouldSwitch = true;
                     break;
                 }
             } else if (dir == "desc") {
-                if (cmpX < cmpY) {
+                if (compareX < compareY) {
                     shouldSwitch = true;
                     break;
                 }
@@ -46,6 +46,7 @@ function sortTable(n) {
 
 function populateResult(textContent, urlContent, option1, option2, option3) {
     var analyzeButton = document.getElementById('analyze');
+    var notification = document.getElementById('notif');
     disableButton(analyzeButton);
 
     if (!checkValidUrl(urlContent) || !textContent) {
@@ -53,7 +54,11 @@ function populateResult(textContent, urlContent, option1, option2, option3) {
         enableButton(analyzeButton);
         return;
     }
-
+    if (!option1 && !option2 && !option3) {
+        enableButton(analyzeButton);
+        notification.hidden = false;
+        return;
+    }
     $.ajax({
         url: 'Word/Analyze',
         dataType: "json",
@@ -61,21 +66,52 @@ function populateResult(textContent, urlContent, option1, option2, option3) {
         method: 'post',
         success: function (words) {
 
-            var resultTableHeader = $('#resultTable thead');
-            resultTableHeader.empty();
-            resultTableHeader.append('<tr><th onclick="sortTable(0)">Name</th><th onclick="sortTable(1)">Occurrences</th></tr>');
+            // Clear all table
+            var resultTableHeader1 = $('#resultTable1 thead');
+            resultTableHeader1.empty();
+            var analyzeResultTable1 = $('#resultTable1 tbody');
+            analyzeResultTable1.empty();
+            var resultTableHeader2 = $('#resultTable2 thead');
+            resultTableHeader2.empty();
+            var analyzeResultTable2 = $('#resultTable2 tbody');
+            analyzeResultTable2.empty();
+            var resultTableHeader3 = $('#resultTable3 thead');
+            resultTableHeader3.empty();
+            var analyzeResultTable3 = $('#resultTable3 tbody');
+            analyzeResultTable3.empty();
 
-            var analyzeResultTable = $('#resultTable tbody');
-            analyzeResultTable.empty();
+            if (option1) {
+                resultTableHeader1.append(
+                    '<tr><th onclick="sortTable(0,1)">Name</th><th onclick="sortTable(1,1)">Occurrences in Page Content</th></tr>');
 
-            for (let i = 0; i < words.length; i++) {
-                analyzeResultTable.append('<tr><td>' + words[i].name + '</td><td>' + words[i].count + '</td></tr>');
+                for (let i = 0; i < words.length; i++) {
+                    analyzeResultTable1.append('<tr><td>' + words[i].name + '</td><td>' + words[i].count + '</td></tr>');
+                }
             }
 
+            if (option2) {
+                resultTableHeader2.append(
+                    '<tr><th onclick="sortTable(0,2)">Name</th><th onclick="sortTable(1,2)">Occurrences in Page Meta Tags</th></tr>');
+
+                for (let i = 0; i < words.length; i++) {
+                    analyzeResultTable2.append('<tr><td>' + words[i].name + '</td><td>' + words[i].metaCount + '</td></tr>');
+                }
+            }
+
+            if (option3) {
+                resultTableHeader3.append(
+                    '<tr><th onclick="sortTable(0,3)">Name</th><th onclick="sortTable(1,3)">Number of external links</th></tr>');
+
+                for (let i = 0; i < words.length; i++) {
+                    analyzeResultTable3.append('<tr><td>' + words[i].name + '</td><td>' + words[i].extLinkCount + '</td></tr>');
+                }
+            }
+            notification.hidden = true;
             enableButton(analyzeButton);
         },
         error: function (err) {
             alert(err);
+            notification.hidden = true;
             enableButton(analyzeButton);
         }
     });
