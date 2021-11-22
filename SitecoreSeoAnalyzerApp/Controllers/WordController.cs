@@ -106,10 +106,11 @@ namespace SitecoreSeoAnalyzerApp.Controllers
         /// </summary>
         /// <param name="html"></param>
         /// <returns></returns>
-        string[] getHtmlMetaTags(string html)
+        string getHtmlMetaTags(string html)
         {
-            string[] metaTag = { };
-            return metaTag;
+            string[] elementLines = html.Split(Environment.NewLine);
+            string allMetas = string.Join(string.Empty, elementLines.Where(elementLine => elementLine.IndexOf("<meta", StringComparison.Ordinal) != -1).ToArray());
+            return allMetas;
         }
 
         /// <summary>
@@ -120,17 +121,6 @@ namespace SitecoreSeoAnalyzerApp.Controllers
         string[] getExternalLinks(string html)
         {
             string[] links = { };
-            return links;
-        }
-
-        /// <summary>
-        /// Filter out all html tags words
-        /// </summary>
-        /// <param name="html"></param>
-        /// <returns></returns>
-        string getRemovedHtmlTags(string html)
-        {
-            string links = "";
             return links;
         }
 
@@ -170,7 +160,17 @@ namespace SitecoreSeoAnalyzerApp.Controllers
         private List<Word> ProcessSeoAnalysis(List<string> words, string url, List<bool> options)
         {
             var webClient = new WebClient();
-            byte[] rawByteContent = webClient.DownloadData(url);
+            byte[] rawByteContent;
+            try
+            {
+                rawByteContent = webClient.DownloadData(url);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+           
             string rawTextContent = System.Text.Encoding.UTF8.GetString(rawByteContent);
 
             // Web body content
@@ -180,6 +180,8 @@ namespace SitecoreSeoAnalyzerApp.Controllers
 
             // Meta tags content
             string headHtml = getHtmlHead(rawTextContent);
+            string rawHtmlMetas = getHtmlMetaTags(headHtml);
+            string[] wordInAllMetas = rawHtmlMetas.Split(' ');
 
             // External links content
 
@@ -205,9 +207,9 @@ namespace SitecoreSeoAnalyzerApp.Controllers
                 // Option 2
                 if (options.ElementAt(1))
                 {
-                    foreach (var wordSplit in WebTextContentSplit)
+                    foreach (var wordInAllMeta in wordInAllMetas)
                     {
-                        if (word.Equals(wordSplit, StringComparison.OrdinalIgnoreCase))
+                        if (word.Equals(wordInAllMeta, StringComparison.OrdinalIgnoreCase))
                         {
                             metaCount++;
                         }
