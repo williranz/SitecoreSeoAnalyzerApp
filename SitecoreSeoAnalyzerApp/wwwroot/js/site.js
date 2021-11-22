@@ -1,11 +1,7 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
+﻿// Review sort algorithm required
 function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("resultTable");
+    var rows, switching, i, x, y, shouldSwitch, dir, switchCount = 0;
+    var table = document.getElementById("resultTable");
     switching = true;
    
     dir = "asc";
@@ -38,9 +34,9 @@ function sortTable(n) {
         if (shouldSwitch) {
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
             switching = true;
-            switchcount++;
+            switchCount++;
         } else {
-            if (switchcount == 0 && dir == "asc") {
+            if (switchCount == 0 && dir == "asc") {
                 dir = "desc";
                 switching = true;
             }
@@ -86,7 +82,15 @@ function populateResult(textContent, urlContent, option1, option2, option3) {
 }
 
 function checkValidUrl(url) {
-    return url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    var pattern = new RegExp(
+        '^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+
+    return pattern.test(url);
 }
 
 function disableButton(analyzeButton) {

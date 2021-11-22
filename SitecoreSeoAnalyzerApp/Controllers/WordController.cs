@@ -142,9 +142,7 @@ namespace SitecoreSeoAnalyzerApp.Controllers
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    var values = line.Split(';');
-
-                    listStopWords.Add(values[0]);
+                    listStopWords.Add(line);
                 }
 
                 return listStopWords;
