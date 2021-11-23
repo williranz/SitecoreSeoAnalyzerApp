@@ -145,21 +145,10 @@ namespace SitecoreSeoAnalyzerApp.Controllers
             // split all html lines into separate string
             string[] bodyElementLines = html.Split(Environment.NewLine);
 
-            List<string> bodyElementList = new List<string>();
-            
-            foreach (var bodyElementLine in bodyElementLines)
-            {
-                // trim white spaces and take non empty line only
-                string bodyElementLineTrimmed = bodyElementLine.Trim();
-                
-                if (!string.IsNullOrWhiteSpace(bodyElementLineTrimmed))
-                {
-                    bodyElementList.Add(bodyElementLineTrimmed);
-                }
-            }
-
             // combine all line and break down into separate word for comparison 
-            var allBodyContentText = string.Join(" ", bodyElementList.ToArray());
+            var allBodyContentText = string.Join(" ", bodyElementLines.Select(bodyElementLine
+                => bodyElementLine.Trim()).Where(bodyElementLineTrimmed
+                => !string.IsNullOrWhiteSpace(bodyElementLineTrimmed)).ToArray());
             var allBodyTextSplit = allBodyContentText.Split(' ');
             return allBodyTextSplit;
         }
@@ -190,7 +179,8 @@ namespace SitecoreSeoAnalyzerApp.Controllers
                     {
                         if (metaLine.IndexOf(HtmlPartConst.MetaContent + HtmlPartConst.DoubleQuote, StringComparison.OrdinalIgnoreCase) != -1)
                         {
-                            int startMetaTagIndex = metaLine.IndexOf(HtmlPartConst.MetaContent + HtmlPartConst.DoubleQuote, StringComparison.OrdinalIgnoreCase) + (HtmlPartConst.MetaContent + HtmlPartConst.DoubleQuote).Length;
+                            int startMetaTagIndex = metaLine.IndexOf(HtmlPartConst.MetaContent + HtmlPartConst.DoubleQuote, StringComparison.OrdinalIgnoreCase) 
+                                                    + (HtmlPartConst.MetaContent + HtmlPartConst.DoubleQuote).Length;
                             string metaContent = metaLine.Substring(startMetaTagIndex);
                             int endMetaTagIndex = metaContent.IndexOf(HtmlPartConst.DoubleQuote, StringComparison.CurrentCulture) - HtmlPartConst.DoubleQuote.Length;
                             metaContent = metaContent.Substring(0, endMetaTagIndex);
@@ -314,22 +304,27 @@ namespace SitecoreSeoAnalyzerApp.Controllers
                 var metaCount = 0;
                 var extLinkCount = 0;
 
+                if (string.IsNullOrWhiteSpace(word)) continue;
+
                 // Option 1
                 if (options.First())
                 {
-                    count += wordsInBody.Count(wordInBody => word.Equals(wordInBody, StringComparison.OrdinalIgnoreCase));
+                    count += wordsInBody.Count(wordInBody =>
+                        word.Equals(wordInBody, StringComparison.OrdinalIgnoreCase));
                 }
 
                 // Option 2
                 if (options.ElementAt(1))
                 {
-                    metaCount += wordsInAllMetaContent.Count(wordInAllMetaContent => wordInAllMetaContent.Contains(word, StringComparison.OrdinalIgnoreCase));
+                    metaCount += wordsInAllMetaContent.Count(wordInAllMetaContent =>
+                        wordInAllMetaContent.Contains(word, StringComparison.OrdinalIgnoreCase));
                 }
 
                 // Option 3
                 if (options.Last())
                 {
-                    extLinkCount += wordsInLinks.Count(wordInLinks => wordInLinks.Contains(word, StringComparison.OrdinalIgnoreCase));
+                    extLinkCount += wordsInLinks.Count(wordInLinks =>
+                        wordInLinks.Contains(word, StringComparison.OrdinalIgnoreCase));
                 }
 
                 // add result word by word
