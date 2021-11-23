@@ -63,25 +63,28 @@ function populateResult(textContent, urlContent, option1, option2, option3) {
     var notification = document.getElementById('notif');
     disableButton(analyzeButton);
 
-    // Input text and url must have value and validated
+    // input text and url must have value and validated
     if (!checkValidUrl(urlContent) || !textContent) {
         alert("Please enter some input text with a valid URL");
         enableButton(analyzeButton);
         return;
     }
 
-    // If all options unchecked, show notification
+    // if all options unchecked, show notification
     if (!option1 && !option2 && !option3) {
         enableButton(analyzeButton);
         notification.hidden = false;
         return;
     }
 
-    // Send request from form to backend
+    // Sanitize white space
+    var cleanTextContent = textContent.replace(/\s+/g, " ").trim();
+
+    // send request from form to backend
     $.ajax({
         url: 'Word/Analyze',
         dataType: "json",
-        data: { 'text': textContent, 'url': urlContent, 'opt1': option1, 'opt2': option2, 'opt3': option3 },
+        data: { 'text': cleanTextContent, 'url': urlContent, 'opt1': option1, 'opt2': option2, 'opt3': option3 },
         method: 'post',
         success: function (words) {
 
@@ -147,7 +150,7 @@ function checkValidUrl(url) {
     var pattern = new RegExp(
         '^(https?:\\/\\/)?' + // protocol http or https
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name alphabet with dot (.)
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // can accept ip (v4) address
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // ip v4 address
         '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port number and path
         '(\\?[;&a-z\\d%_.~+=-]*)?' + // query strings starts with (?)
         '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
