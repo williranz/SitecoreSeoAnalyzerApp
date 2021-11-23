@@ -3,6 +3,37 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Sitecore SEO Analyzer</h1>
+    <br />
+    <label for="tcontent">Text to analyze</label>
+    <input type="text" id="TContent" name="textcontent" maxlength="250" placeholder="Enter text here.." />
+    <label for="tcontent">Page URL</label>
+    <input type="url" id="UContent" name="urlcontent" placeholder="Enter page url here.." />
+    <div id="checkboxlist">
+        <label>Analysis Option:</label>
+        <ul>
+            <li><input type="checkbox" id="option1" checked="checked"> Number of occurrences in the page content (default)</li>
+            <li><input type="checkbox" id="option2"> Number of occurrences inside the page meta tags </li>
+            <li><input type="checkbox" id="option3"> Number of external links in the text </li>
+        </ul>
+    </div>
+    <input type="submit" id="analyze" value="Analyze" onclick="populateResult(document.getElementById('TContent').value, document.getElementById('UContent').value,
+        document.getElementById('option1').checked, document.getElementById('option2').checked, document.getElementById('option3').checked)" />
+    <div class="notification" id="notif" hidden="hidden">
+        <strong>Warning!</strong> no analysis option was selected.
+    </div>
+    <table id="resultTable1">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+    <br />
+    <table id="resultTable2">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+    <br />
+    <table id="resultTable3">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
 </div>
