@@ -16,7 +16,7 @@
         /// <summary>
         /// html opening link tag
         /// </summary>
-        public const string LinkTagStart = "<a href =";
+        public const string LinkTagStart = "<a href=";
 
         /// <summary>
         /// html opening body
