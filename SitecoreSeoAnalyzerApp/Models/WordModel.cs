@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SitecoreSeoAnalyzerApp.Models
+﻿namespace SitecoreSeoAnalyzerApp.Models
 {
     /// <summary>
     /// Word model
@@ -34,12 +29,12 @@ namespace SitecoreSeoAnalyzerApp.Models
         /// <summary>
         /// Constructor word
         /// </summary>
-        public Word(string name, int count = 0, int metaCount = 0, int extLinkCOunt = 0)
+        public Word(string name, int count = 0, int metaCount = 0, int extLinkCount = 0)
         {
             Name = name;
             Count = count;
             MetaCount = metaCount;
-            ExtLinkCount = extLinkCOunt;
+            ExtLinkCount = extLinkCount;
         }
     }
 }

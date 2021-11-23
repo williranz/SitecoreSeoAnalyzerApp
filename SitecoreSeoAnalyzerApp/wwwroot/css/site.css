@@ -1,13 +1,10 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
+﻿/* General page section */
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
 }
@@ -46,8 +43,6 @@ img {
   padding-bottom: 0.7125rem
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
 html {
     font-size: 14px;
 }
@@ -73,8 +68,6 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
@@ -98,16 +91,18 @@ label {
   float: left;
 }
 
+/* Form section
+-------------------------------------------------- */
 input[type=text], input[type=url], select {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 8px #7bc1f7;
-  display: inline-block;
-  margin: 8px 0;
-  margin-bottom: 18px;
-  padding: 12px 20px;
-  width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 8px #7bc1f7;
+    display: inline-block;
+    margin: 8px 0;
+    margin-bottom: 18px;
+    padding: 12px 20px;
+    width: 100%;
 }
 
 input[type=submit] {
@@ -153,6 +148,7 @@ input[type=checkbox]:checked {
     filter: invert(100%) hue-rotate(50deg) brightness(1.2);
 }
 
+/* Table section */
 table {
     width: 100%;
     border: 0.5px solid #cccccc;
